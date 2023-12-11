@@ -18,3 +18,7 @@ operator:
     useDigest: false
     pullPolicy: IfNotPresent
     suffix: ""
+enterprise:
+ multicast:
+    # -- Enables synthetic multicast in cilium, multicast replication works only in tunnel mode.
+    enabled: true
