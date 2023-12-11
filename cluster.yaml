@@ -10,3 +10,4 @@ networking:
   apiServerPort: 6443
 nodes:
 - role: control-plane
+- role: worker
