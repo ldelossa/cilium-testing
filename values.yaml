@@ -22,3 +22,6 @@ ipam:
   mode: kubernetes
 ipv6:
   enabled: true
+encryption:
+  enabled: true
+  type: ipsec
