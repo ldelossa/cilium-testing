@@ -18,6 +18,13 @@ operator:
     useDigest: false
     pullPolicy: IfNotPresent
     suffix: ""
+encryption:
+  enabled: true
+  type: ipsec
+  ipsec:
+    encryptedOverlay: true
+envoy:
+  enabled: false
 enterprise:
  multicast:
     # -- Enables synthetic multicast in cilium, multicast replication works only in tunnel mode.
