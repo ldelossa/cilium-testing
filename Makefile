@@ -15,6 +15,7 @@ destroy:
 .ONESHELL:
 install:
 	export DOCKER_IMAGE_TAG="local"
+	export DOCKER_REGISTRY="quay.io"
 	cd $(CILIUM_SRC)
 	make docker-operator-generic-image
 	make dev-docker-image
@@ -27,6 +28,7 @@ install:
 .ONESHELL:
 bounce:
 	export DOCKER_IMAGE_TAG="local"
+	export DOCKER_REGISTRY="quay.io"
 	cd $(CILIUM_SRC)
 	make docker-operator-generic-image
 	make dev-docker-image
@@ -36,6 +38,7 @@ bounce:
 .ONESHELL:
 install-debug:
 	export DOCKER_IMAGE_TAG="local"
+	export DOCKER_REGISTRY="quay.io"
 	export NOSTRIP=1
 	export NOOPT=1
 	export DEBUG_HOLD=true
@@ -51,6 +54,7 @@ install-debug:
 .ONESHELL:
 bounce-debug:
 	export DOCKER_IMAGE_TAG="local"
+	export DOCKER_REGISTRY="quay.io"
 	export NOSTRIP=1
 	export NOOPT=1
 	export DEBUG_HOLD=true
