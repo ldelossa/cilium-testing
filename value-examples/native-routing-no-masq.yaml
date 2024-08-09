@@ -22,8 +22,10 @@ ipam:
   mode: kubernetes
 ipv6:
   enabled: true
+encryption:
+  enabled: true
+  type: ipsec
 routingMode: native
 enableIPv4Masquerade: false
 enableIPv6Masquerade: false
 autoDirectNodeRoutes: true
-
