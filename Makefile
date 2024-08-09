@@ -72,6 +72,9 @@ update-values:
 echo-service:
 	kubectl apply -f "./migrations-svc-deployment.yaml"
 
+test-deployment:
+	kubectl apply -f "./test-deployment.yaml"
+
 reinstall:
 	helm -n kube-system uninstall cilium
 	helm -n kube-system install cilium $(CILIUM_HELM_CHART) -f values.yaml
