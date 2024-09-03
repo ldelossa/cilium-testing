@@ -1,0 +1,31 @@
+debug:
+  enabled: true
+  verbose: datapath
+bpf:
+  monitorAggregation: none
+image:
+  repository: quay.io/cilium/cilium-dev
+  tag: local
+  pullPolicy: IfNotPresent
+  useDigest: false
+operator:
+  enabled: true
+  replicas: 1
+  image:
+    override: ~
+    repository: quay.io/cilium/operator
+    tag: local
+    useDigest: false
+    pullPolicy: IfNotPresent
+    suffix: ""
+ipam:
+  mode: kubernetes
+ipv6:
+  enabled: true
+routingMode: native
+ipv4NativeRoutingCIDR: 10.244.0.0/16
+ipv6NativeRoutingCIDR: fd00:10:244::/56
+enableIPv4Masquerade: true
+enableIPv6Masquerade: true
+autoDirectNodeRoutes: true
+
