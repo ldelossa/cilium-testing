@@ -1,4 +1,4 @@
-CILIUM_SRC ?= /home/louis/git/gopath/src/github.com/cilium/cilium-enterprise
+CILIUM_SRC ?= $(HOME)/git/gopath/src/github.com/cilium/cilium-enterprise
 CILIUM_HELM_CHART ?= $(CILIUM_SRC)/install/kubernetes/cilium
 CILIUM_AGENT_LABEL ?= app.kubernetes.io/name=cilium-agent
 CILIUM_OPERATOR_LABEL ?= app.kubernetes.io/name=cilium-operator
