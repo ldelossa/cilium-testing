@@ -6,7 +6,7 @@ spec:
   selector:
     matchLabels:
       app: netshoot-client
-  replicas: 1
+  replicas: 2
   template:
     metadata:
       labels:
@@ -16,11 +16,11 @@ spec:
         - name: kind-mount
           hostPath:
             path: "/mnt"
-      hostNetwork: true
+      # hostNetwork: true
       tolerations:
-      - key: node-role.kubernetes.io/master
-        operator: Exists
-        effect: NoSchedule
+      # - key: node-role.kubernetes.io/master
+      #   operator: Exists
+      #   effect: NoSchedule
       containers:
       - name: netshoot
         image: nicolaka/netshoot:latest
@@ -44,9 +44,9 @@ spec:
         app: netshoot-server
     spec:
       tolerations:
-      - key: node-role.kubernetes.io/master
-        operator: Exists
-        effect: NoSchedule
+      # - key: node-role.kubernetes.io/master
+      #   operator: Exists
+      #   effect: NoSchedule
       containers:
       - name: netshoot
         image: nicolaka/netshoot:latest
