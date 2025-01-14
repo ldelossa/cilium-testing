@@ -5,25 +5,32 @@ bpf:
   monitorAggregation: none
 image:
   repository: quay.io/cilium/cilium-dev
-  tag: local
+  tag: local_cluster_2
   pullPolicy: IfNotPresent
   useDigest: false
+updateStrategy:
+  rollingUpdate:
+    maxUnavailable: 1
 operator:
   enabled: true
   replicas: 1
   image:
     override: ~
     repository: quay.io/cilium/operator
-    tag: local
+    tag: local_cluster_2
     useDigest: false
     pullPolicy: IfNotPresent
     suffix: ""
 ipam:
   mode: kubernetes
+ipv4:
+  enabled: true
 ipv6:
   enabled: true
-routingMode: native
-autoDirectNodeRoutes: true
-ipv4NativeRoutingCIDR: "10.244.0.0/16"
-ipv6NativeRoutingCIDR: "fd00:10:244::/56"
-
+routingMode: tunnel
+tunnelProtocol: vxlan
+cluster:
+  name: cilium-testing-cluster-2
+  id: 2
+enterprise:
+  featureGates: [AllBetaFeatures, AllAlphaFeatures, AllLimitedFeatures]

@@ -26,4 +26,3 @@ routingMode: native
 enableIPv4Masquerade: false
 enableIPv6Masquerade: false
 autoDirectNodeRoutes: true
-

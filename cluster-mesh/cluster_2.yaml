@@ -1,0 +1,14 @@
+kind: Cluster
+name: cilium-testing-cluster-2
+apiVersion: kind.x-k8s.io/v1alpha4
+networking:
+  disableDefaultCNI: true
+  ipFamily: dual
+  podSubnet: "10.245.0.0/16,fd00:10:245::/56"
+  serviceSubnet: "10.97.0.0/16,fd00:10:97::/112"
+  apiServerAddress: "127.0.0.1"
+  apiServerPort: 6444
+nodes:
+- role: control-plane
+- role: worker
+- role: worker

@@ -22,8 +22,5 @@ ipam:
   mode: kubernetes
 ipv6:
   enabled: true
-routingMode: native
-autoDirectNodeRoutes: true
-ipv4NativeRoutingCIDR: "10.244.0.0/16"
-ipv6NativeRoutingCIDR: "fd00:10:244::/56"
-
+enterprise:
+  featureGates: [AllBetaFeatures, AllAlphaFeatures, AllLimitedFeatures]
