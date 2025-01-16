@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: netshoot-server
+spec:
+  selector:
+    matchLabels:
+      app: netshoot-server
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: netshoot-server
+    spec:
+      tolerations:
+      # - key: node-role.kubernetes.io/master
+      #   operator: Exists
+      #   effect: NoSchedule
+      containers:
+      - name: netshoot
+        image: nicolaka/netshoot:latest
+        command: ["sleep", "infinite"]
+        resources:
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: netshoot-service
+spec:
+  ports:
+  - port: 8000
+  selector:
+    app: netshoot-server

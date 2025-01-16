@@ -10,13 +10,17 @@ CILIUM_HELM_CHART_CLUSTER_2 ?= $(CILIUM_SRC_CLUSTER_2)/install/kubernetes/cilium
 KUBECTL_CONTEXT_1 = kind-cilium-testing-cluster-1
 KUBECTL_CONTEXT_2 = kind-cilium-testing-cluster-2
 
+IPSEC_KEY = d8f55613436e6aeb1af8ebf1079bcd48b2af38cb
+IPSEC_KEY_LITERAL = 3+ rfc4106(gcm(aes)) $(IPSEC_KEY) 128
+
 .PHONY: install
 
 # deploys both clusters for cluster-mesh testing
 deploy:
 	kind create cluster --config ./cluster_1.yaml
+	kubectl --context $(KUBECTL_CONTEXT_1) taint nodes cilium-testing-cluster-1-control-plane node-role.kubernetes.io/control-plane:NoSchedule-
 	kind create cluster --config ./cluster_2.yaml
-	# -kubectl taint nodes cilium-testing-control-plane node-role.kubernetes.io/control-plane:NoSchedule-
+	kubectl --context $(KUBECTL_CONTEXT_2) taint nodes cilium-testing-cluster-2-control-plane node-role.kubernetes.io/control-plane:NoSchedule-
 
 destroy:
 	kind delete cluster --name cilium-testing-cluster-1
@@ -54,6 +58,10 @@ install:
 
 	cilium clustermesh connect --context kind-cilium-testing-cluster-1 --destination-context kind-cilium-testing-cluster-2
 	cilium clustermesh status --context kind-cilium-testing-cluster-1 --wait
+
+install-ipsec-keys:
+	  kubectl --context $(KUBECTL_CONTEXT_1) create -n kube-system secret generic cilium-ipsec-keys --from-literal=keys="$(IPSEC_KEY_LITERAL)"
+	  kubectl --context $(KUBECTL_CONTEXT_2) create -n kube-system secret generic cilium-ipsec-keys --from-literal=keys="$(IPSEC_KEY_LITERAL)"
 
 .ONESHELL:
 bounce-cluster-1:
@@ -114,3 +122,9 @@ bounce-operator-cluster-1:
 
 bounce-operator-cluster-2:
 	kubectl --context $(KUBECTL_CONTEXT_2) --namespace=kube-system delete pod -l $(CILIUM_OPERATOR_LABEL)
+
+test-deployment:
+	# cluster 1 has the clients
+	kubectl -n kube-system --context $(KUBECTL_CONTEXT_1) apply -f test-deployment-cluster-1.yaml
+	# cluster 2 has the servers
+	kubectl -n kube-system --context $(KUBECTL_CONTEXT_2) apply -f test-deployment-cluster-2.yaml

@@ -34,3 +34,6 @@ cluster:
   id: 2
 enterprise:
   featureGates: [AllBetaFeatures, AllAlphaFeatures, AllLimitedFeatures]
+encryption:
+  enabled: true
+  type: ipsec
