@@ -3,6 +3,9 @@ CILIUM_HELM_CHART ?= $(CILIUM_SRC)/install/kubernetes/cilium
 CILIUM_AGENT_LABEL ?= app.kubernetes.io/name=cilium-agent
 CILIUM_OPERATOR_LABEL ?= app.kubernetes.io/name=cilium-operator
 
+IPSEC_KEY = d8f55613436e6aeb1af8ebf1079bcd48b2af38cb
+IPSEC_KEY_LITERAL = 3+ rfc4106(gcm(aes)) $(IPSEC_KEY) 128
+
 .PHONY: install
 
 deploy:
@@ -23,6 +26,9 @@ install:
 	kind load --name cilium-testing docker-image quay.io/cilium/operator-generic:local
 	kind load --name cilium-testing docker-image quay.io/cilium/cilium-dev:local
 	helm -n kube-system install cilium $(CILIUM_HELM_CHART) -f values.yaml
+
+install-ipsec-keys:
+	  kubectl create -n kube-system secret generic cilium-ipsec-keys --from-literal=keys="$(IPSEC_KEY_LITERAL)"
 
 .ONESHELL:
 bounce:
