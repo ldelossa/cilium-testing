@@ -25,10 +25,13 @@ install:
 
 	kind load --name cilium-testing docker-image quay.io/cilium/operator-generic:local
 	kind load --name cilium-testing docker-image quay.io/cilium/cilium-dev:local
-	helm -n kube-system install cilium $(CILIUM_HELM_CHART) -f values.yaml
+	cilium install --chart-directory $(CILIUM_HELM_CHART) -f values.yaml
 
 install-ipsec-keys:
-	  kubectl create -n kube-system secret generic cilium-ipsec-keys --from-literal=keys="$(IPSEC_KEY_LITERAL)"
+	kubectl create -n kube-system secret generic cilium-ipsec-keys --from-literal=keys="$(IPSEC_KEY_LITERAL)"
+
+install-ztunnel-secrets:
+	../scripts/ztunnel-secrets.sh
 
 .ONESHELL:
 bounce:
@@ -52,7 +55,7 @@ install-debug:
 
 	kind load --name cilium-testing docker-image quay.io/cilium/operator-generic:local
 	kind load --name cilium-testing docker-image quay.io/cilium/cilium-dev:local
-	helm -n kube-system install cilium $(CILIUM_HELM_CHART) -f values.yaml
+	cilium install --chart-directory $(CILIUM_HELM_CHART) -f values.yaml
 
 .ONESHELL:
 bounce-debug:
@@ -73,7 +76,8 @@ bounce-operator:
 	kubectl --namespace=kube-system delete pod -l $(CILIUM_OPERATOR_LABEL)
 
 update-values:
-	helm -n kube-system upgrade cilium $(CILIUM_HELM_CHART) -f values.yaml
+	cilium upgrade --chart-directory $(CILIUM_HELM_CHART) -f values.yaml
+
 
 echo-service:
 	kubectl apply -f "./migrations-svc-deployment.yaml"

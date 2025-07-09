@@ -1,0 +1,29 @@
+debug:
+  enabled: true
+  verbose: datapath
+bpf:
+  monitorAggregation: none
+image:
+  repository: quay.io/cilium/cilium-dev
+  tag: local
+  pullPolicy: IfNotPresent
+  useDigest: false
+operator:
+  enabled: true
+  replicas: 1
+  image:
+    override: ~
+    repository: quay.io/cilium/operator
+    tag: local
+    useDigest: false
+    pullPolicy: IfNotPresent
+    suffix: ""
+ipam:
+  mode: kubernetes
+ipv6:
+  enabled: true
+encryption:
+  enabled: true
+  type: ztunnel
+enterprise:
+  featureGates: [AllBetaFeatures, AllAlphaFeatures, AllLimitedFeatures]
