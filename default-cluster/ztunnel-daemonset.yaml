@@ -17,19 +17,28 @@ spec:
       labels:
         app: ztunnel
     spec:
+      hostNetwork: true
       containers:
       - args:
         - proxy
         - ztunnel
         env:
         - name: XDS_ADDRESS
-          value: ""
+          value: "https://localhost:15012"
+        - name: XDS_ROOT_CA
+          value: "/etc/ztunnel/bootstrap-root.crt"
+        - name: CA_ROOT_CA
+          value: "/etc/ztunnel/bootstrap-root.crt"
+        - name: CA_ADDRESS
+          value: "https://localhost:15012"
+        - name: FAKE_CA
+          value: "false"
         - name: RUST_LOG
           value: debug
         - name: RUST_BACKTRACE
           value: "1"
-        - name: LOCAL_XDS_PATH
-          value: "/var/run/ztunnel/localhost.yaml"
+        # - name: LOCAL_XDS_PATH
+        #   value: "/usr/local/bin/localhost.yaml"
         - name: POD_NAME
           valueFrom:
             fieldRef:
@@ -95,11 +104,11 @@ spec:
         terminationMessagePolicy: File
         volumeMounts:
         - mountPath: /var/run/ztunnel
-          name: cni-ztunnel-sock-dir
-        - mountPath: /opt
+          name: ztunnel-dir
+        - mountPath: /usr/local/bin
           name: opt
-        - mountPath: /tmp
-          name: tmp
+        - mountPath: /etc/ztunnel
+          name: cilium-ztunnel-secrets
       dnsPolicy: ClusterFirst
       nodeSelector:
         kubernetes.io/os: linux
@@ -117,15 +126,19 @@ spec:
         operator: Exists
       volumes:
       - hostPath:
-          path: /var/run/ztunnel
+          path: /var/run/cilium
           type: DirectoryOrCreate
-        name: cni-ztunnel-sock-dir
+        name: ztunnel-dir
       - hostPath:
-          path: /opt/
+          path: /opt
           type: DirectoryOrCreate
         name: opt
-      - emptyDir: {}
-        name: tmp
+      - name: cilium-ztunnel-secrets
+        secret:
+          secretName: cilium-ztunnel-secrets
+          items:
+            - key: bootstrap-root.crt
+              path: bootstrap-root.crt
   updateStrategy:
     rollingUpdate:
       maxSurge: 1

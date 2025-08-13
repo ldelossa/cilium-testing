@@ -27,6 +27,24 @@ install:
 	kind load --name cilium-testing docker-image quay.io/cilium/cilium-dev:local
 	cilium install --chart-directory $(CILIUM_HELM_CHART) -f values.yaml
 
+install-ztunnel-assets:
+	docker cp ~/git/isovalent/ztunnel-shim/ztunnel-shim cilium-testing-worker:/opt
+	docker cp ~/git/isovalent/ztunnel-shim/ztunnel-shim cilium-testing-worker2:/opt
+	docker cp ~/git/isovalent/ztunnel-shim/ztunnel-shim cilium-testing-control-plane:/opt
+
+	docker cp ~/git/isovalent/ztunnel-shim/config.yaml cilium-testing-worker:/opt
+	docker cp ~/git/isovalent/ztunnel-shim/config.yaml cilium-testing-worker2:/opt
+	docker cp ~/git/isovalent/ztunnel-shim/config.yaml cilium-testing-control-plane:/opt
+
+	# we will mount in our own testing version of the ztunnel binary
+	docker cp ~/git/isovalent/ztunnel-shim/ztunnel/out/rust/debug/ztunnel cilium-testing-worker:/opt
+	docker cp ~/git/isovalent/ztunnel-shim/ztunnel/out/rust/debug/ztunnel cilium-testing-worker2:/opt
+	docker cp ~/git/isovalent/ztunnel-shim/ztunnel/out/rust/debug/ztunnel cilium-testing-control-plane:/opt
+
+	docker cp ~/git/isovalent/ztunnel-shim/ztunnel/examples/localhost.yaml cilium-testing-worker:/opt
+	docker cp ~/git/isovalent/ztunnel-shim/ztunnel/examples/localhost.yaml cilium-testing-worker2:/opt
+	docker cp ~/git/isovalent/ztunnel-shim/ztunnel/examples/localhost.yaml cilium-testing-control-plane:/opt
+
 install-ipsec-keys:
 	kubectl create -n kube-system secret generic cilium-ipsec-keys --from-literal=keys="$(IPSEC_KEY_LITERAL)"
 
@@ -77,7 +95,6 @@ bounce-operator:
 
 update-values:
 	cilium upgrade --chart-directory $(CILIUM_HELM_CHART) -f values.yaml
-
 
 echo-service:
 	kubectl apply -f "./migrations-svc-deployment.yaml"

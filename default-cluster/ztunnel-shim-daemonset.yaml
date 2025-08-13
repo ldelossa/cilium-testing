@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: ztunnel-shim
+spec:
+  selector:
+    matchLabels:
+      app: ztunnel-shim
+  template:
+    metadata:
+      labels:
+        app: ztunnel-shim
+    spec:
+      volumes:
+        - name: opt
+          hostPath:
+            path: /opt
+        - name: ztunnel-socket
+          hostPath:
+            path: /var/run
+        - name: proc
+          hostPath:
+            path: /proc
+      containers:
+      - name: netshoot
+        image: nicolaka/netshoot:latest
+        securityContext:
+          privileged: true
+        command: ["/opt/ztunnel-shim", "/opt/config.yaml"]
+        volumeMounts:
+          - mountPath: /opt
+            name: opt
+          - mountPath: /var/run
+            name: ztunnel-socket
+          - mountPath: /proc
+            name: proc
