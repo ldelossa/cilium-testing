@@ -28,4 +28,7 @@ ipv6NativeRoutingCIDR: fd00:10:244::/56
 enableIPv4Masquerade: true
 enableIPv6Masquerade: true
 autoDirectNodeRoutes: true
-
+enterprise:
+    featureGate:
+      approved: []
+      strict: false  # Allow warnings instead of failures

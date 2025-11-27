@@ -23,4 +23,6 @@ ipam:
 ipv6:
   enabled: true
 enterprise:
-  featureGates: [AllBetaFeatures, AllAlphaFeatures, AllLimitedFeatures]
+    featureGate:
+      approved: []
+      strict: false  # Allow warnings instead of failures

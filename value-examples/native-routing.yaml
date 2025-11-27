@@ -26,4 +26,7 @@ routingMode: native
 autoDirectNodeRoutes: true
 ipv4NativeRoutingCIDR: "10.244.0.0/16"
 ipv6NativeRoutingCIDR: "fd00:10:244::/56"
-
+enterprise:
+    featureGate:
+      approved: []
+      strict: false  # Allow warnings instead of failures

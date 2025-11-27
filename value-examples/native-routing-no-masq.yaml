@@ -26,3 +26,7 @@ routingMode: native
 enableIPv4Masquerade: false
 enableIPv6Masquerade: false
 autoDirectNodeRoutes: true
+enterprise:
+    featureGate:
+      approved: []
+      strict: false  # Allow warnings instead of failures
