@@ -1,0 +1,13 @@
+apiVersion: cilium.io/v2
+kind: CiliumVRF
+metadata:
+  name: blue
+spec:
+  table: 100
+  selector:
+    podSelector:
+      matchLabels:
+        vrf: blue
+  interfaces:
+    - eth1
+
