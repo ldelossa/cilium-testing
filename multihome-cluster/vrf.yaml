@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 apiVersion: cilium.io/v2
 kind: CiliumVRF
 metadata:
@@ -11,3 +12,20 @@ spec:
   interfaces:
     - eth1
 
+||||||| Stash base
+=======
+apiVersion: isovalent.com/v1alpha1
+kind: IsovalentCoreVRF
+metadata:
+  name: blue
+spec:
+  id: 1
+  table: 100
+  selector:
+    podSelector:
+      matchLabels:
+        vrf: blue
+  interfaces:
+    - eth1
+
+>>>>>>> Stashed changes
