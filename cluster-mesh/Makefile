@@ -1,7 +1,7 @@
 CILIUM_AGENT_LABEL ?= app.kubernetes.io/name=cilium-agent
 CILIUM_OPERATOR_LABEL ?= app.kubernetes.io/name=cilium-operator
 
-CILIUM_SRC_CLUSTER_1 ?= $(HOME)/git/gopath/src/github.com/cilium/cilium-enterprise
+CILIUM_SRC ?= $(HOME)/git/go/cilium-enterprise
 CILIUM_HELM_CHART_CLUSTER_1 ?= $(CILIUM_SRC_CLUSTER_1)/install/kubernetes/cilium
 
 CILIUM_SRC_CLUSTER_2 ?= $(HOME)/git/gopath/src/github.com/cilium/cilium-enterprise
